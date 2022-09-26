@@ -34,4 +34,19 @@ public class EmployeeController {
         .orElseThrow(()-> new ResourceNotFoundException("No such employee with ID: " + id));
         return ResponseEntity.ok(employee);
     }
+
+    //update employee REST
+    @PutMapping("{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee employeeDetails){
+        Employee updateEmployee = employeeRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Employee doesnt Exist with ID:  " + id));
+        updateEmployee.setFirstName(employeeDetails.getFirstName());
+        updateEmployee.setLastName(employeeDetails.getLastName());
+        updateEmployee.setEmailId(employeeDetails.getEmailId());
+
+        employeeRepository.save(updateEmployee);
+
+        return  ResponseEntity.ok(updateEmployee);
+    }
+
 }
