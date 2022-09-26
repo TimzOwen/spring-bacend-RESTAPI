@@ -4,6 +4,7 @@ import com.timzowen.springbootbackend.exception.ResourceNotFoundException;
 import com.timzowen.springbootbackend.model.Employee;
 import com.timzowen.springbootbackend.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,18 @@ public class EmployeeController {
         employeeRepository.save(updateEmployee);
 
         return  ResponseEntity.ok(updateEmployee);
+    }
+
+    // Delete employee RESTAPI
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteEmployee(@PathVariable long id){
+
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No such employee id : " + id));
+        employeeRepository.delete(employee);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
     }
 
 }
