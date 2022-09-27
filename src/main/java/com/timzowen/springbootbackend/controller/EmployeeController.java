@@ -57,7 +57,6 @@ public class EmployeeController {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No such employee id : " + id));
         employeeRepository.delete(employee);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
